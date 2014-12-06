@@ -9,6 +9,8 @@ import flixel.tweens.FlxTween;
 
 class Gem extends FlxSprite {
 
+  public var colected:Bool;
+
   public function new (x:Float = 0, y:Float = 0){
     super(x, y);
     loadGraphic(AssetPaths.gem__png, true, 16, 16);
@@ -19,6 +21,8 @@ class Gem extends FlxSprite {
 
     drag.x = drag.y = 740;
     maxVelocity.set(200, 800);
+
+    colected = false;
 
   }
 
