@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="20" height="15" tilewidth="16" tileheight="16">
+ <tileset firstgid="1" name="tileset" tilewidth="16" tileheight="16">
+  <image source="../images/tileset.png" trans="ffffff" width="192" height="192"/>
+ </tileset>
+ <tileset firstgid="145" name="player" tilewidth="16" tileheight="16">
+  <image source="../images/player.png" trans="ffffff" width="160" height="32"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="20" height="15">
+  <properties>
+   <property name="tileset" value="tileset"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJxjZGBgYKQyphYYNQ8hToxeYs0jFwxV80bDb2DNoyYGAKlMAEc=
+  </data>
+ </layer>
+ <objectgroup name="Object Layer 1" width="20" height="15">
+  <object name="Player" type="player" gid="145" x="144" y="128"/>
+  <object name="gem" type="gem" x="192" y="80" width="16" height="16"/>
+ </objectgroup>
+</map>
