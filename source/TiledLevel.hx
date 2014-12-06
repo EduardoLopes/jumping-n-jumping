@@ -104,8 +104,7 @@ class TiledLevel extends TiledMap
     switch (o.type.toLowerCase())
     {
       case "player":
-        var player = new Player(x, y);
-        //FlxG.camera.follow(player);
+        var player = new Player(x, y, state.jumpText);
         state.player = player;
         state.add(player);
 

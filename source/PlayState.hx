@@ -7,6 +7,7 @@ import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 import flixel.util.FlxMath;
 import flixel.util.FlxRandom;
+import flixel.group.FlxTypedGroup;
 
 /**
  * A FlxState which can be used for the actual gameplay.
@@ -16,6 +17,7 @@ class PlayState extends FlxState
   public var level:TiledLevel;
   public var player:Player;
   public var gem:Gem;
+  public var jumpText:FlxTypedGroup<JumpText>;
 
   /**
    * Function that is called up when to state is created to set it up.
@@ -30,7 +32,16 @@ class PlayState extends FlxState
     add(level.foregroundTiles);
     add(level.backgroundTiles);
 
+    jumpText = new FlxTypedGroup<JumpText>();
+    jumpText.maxSize = 20;
+    add(jumpText);
+
     level.loadObjects(this);
+
+    //add(new FlxText(16, 2, 0, "3 / 3", 8));
+
+//    hud = new HUD();
+//    add(hud);
 
     super.create();
 
@@ -60,6 +71,10 @@ class PlayState extends FlxState
     FlxG.overlap(gem, player, function(gem, player){
 
       player.velocity.y = 0;
+      player.jumpsCount += 3;
+      //player.maxJumps = 1;
+
+      player.textColor = 0x95dc83;
 
       player.jump();
 

@@ -14,8 +14,14 @@ class Player extends FlxSprite {
 
   public var canMove = true;
   public var touchFloorTween:Dynamic = null;
+  public var MAX_JUMPS:Int = 3;
+  public var maxJumps:Int = 3;
+  public var jumps:Int = 0;
+  public var jumpsCount:Int = 3;
+  public var jumpText:FlxTypedGroup<JumpText>;
+  public var textColor = 0xffffff;
 
-  public function new (x:Float = 0, y:Float = 0){
+  public function new (x:Float = 0, y:Float = 0, JumpText){
     super(x, y);
     loadGraphic(AssetPaths.player__png, true, 16, 16);
 
@@ -26,6 +32,8 @@ class Player extends FlxSprite {
 
     setFacingFlip(FlxObject.LEFT, true, false);
     setFacingFlip(FlxObject.RIGHT, false, false);
+
+    jumpText = JumpText;
 
   }
 
@@ -80,10 +88,22 @@ class Player extends FlxSprite {
         facing = FlxObject.RIGHT;
 
       }
-       //isTouching(FlxObject.FLOOR)
-      if ((jumpButton #if !flash || gamepad.justPressed(2) #end )){
 
-       jump();
+      if(isTouching(FlxObject.FLOOR)){
+
+        if(jumpsCount < 3){
+          jumpsCount = MAX_JUMPS;
+          textColor = 0x839bdc;
+          jumpText.recycle(JumpText).getText(Std.int(x), Std.int(y), Std.string(jumpsCount), textColor);
+        }
+
+      }
+
+      if (jumpsCount > 0 && (jumpButton #if !flash || gamepad.justPressed(2) #end )){
+
+        textColor = 0xFFFFFF;
+
+        jump();
 
       }
 
@@ -105,6 +125,10 @@ class Player extends FlxSprite {
 
     scale.set(0.6, 1.5);
     FlxTween.tween(scale, { x: 1, y: 1 }, 0.4, { ease:FlxEase.sineOut } );
+
+    jumpsCount--;
+
+    jumpText.recycle(JumpText).getText(Std.int(x), Std.int(y), Std.string(jumpsCount), textColor);
 
   }
 
