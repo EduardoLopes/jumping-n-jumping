@@ -141,8 +141,13 @@ class TiledLevel extends TiledMap
 //        trace(Math.floor(Std.int(y) / 16));
 //        trace(map.getTile(Math.floor(Std.int(x) / 16), Math.floor(Std.int(y) / 16)));
 
-        if(map.getTile(Math.floor(Std.int(x) / 16), Math.floor(Std.int(y) / 16)) != 0 || map.getTile(Math.floor(Std.int(x + width) / 16), Math.floor(Std.int(y + height) / 16)) != 0)
+        if(map.getTile(Math.floor(Std.int(x) / 16), Math.floor(Std.int(y) / 16)) != 0
+        || map.getTile(Math.floor(Std.int(x + width) / 16), Math.floor(Std.int(y + height) / 16)) != 0
+        || map.getTile(Math.floor(Std.int(x + width) / 16), Math.floor(Std.int(y) / 16)) != 0
+        || map.getTile(Math.floor(Std.int(x) / 16), Math.floor(Std.int(y + height) / 16)) != 0)
+        {
           return true;
+        }
 
       }
     }

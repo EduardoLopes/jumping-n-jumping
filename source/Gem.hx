@@ -6,10 +6,12 @@ import flixel.FlxG;
 import flixel.util.FlxSpriteUtil;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
+import flixel.util.FlxPoint;
 
 class Gem extends FlxSprite {
 
   public var colected:Bool;
+  public var nextPosition:FlxPoint;
 
   public function new (x:Float = 0, y:Float = 0){
     super(x, y);
@@ -21,6 +23,8 @@ class Gem extends FlxSprite {
 
     drag.x = drag.y = 740;
     maxVelocity.set(200, 800);
+
+    nextPosition = new FlxPoint(0,0);
 
     colected = false;
 

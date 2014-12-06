@@ -21,8 +21,8 @@ class PlayState extends FlxState
   public var jumpText:FlxTypedGroup<JumpText>;
   public var gemCount:Int = 0;
   public var gemCountText:FlxText;
-  public var lastGemPosition:FlxPoint;
   public var timeToReapear:Float = 0;
+  public var searchingPlaceForGem = true;
 
   /**
    * Function that is called up when to state is created to set it up.
@@ -41,17 +41,12 @@ class PlayState extends FlxState
     jumpText.maxSize = 20;
     add(jumpText);
 
-    level.loadObjects(this);
-
-    lastGemPosition = new FlxPoint(0,0);
-
-    lastGemPosition.x = Std.int(gem.x);
-    lastGemPosition.y = Std.int(gem.y);
-
     gemCountText = new FlxText(0, 16, FlxG.width, Std.string(gemCount), 20);
     gemCountText.setFormat(null, 20, 0xFFFFFF, "center", FlxText.BORDER_OUTLINE_FAST, 0x131c1b);
 
     add(gemCountText);
+
+    level.loadObjects(this);
 
 
     super.create();
@@ -105,21 +100,33 @@ class PlayState extends FlxState
 
     if(timeToReapear > 0.2 && gem.colected){
 
-      gem.colected = false;
+        searchingPlaceForGem = false;
 
-      gem.revive();
+        gem.nextPosition.x = FlxRandom.floatRanged(0, FlxG.width, [player.x]);
+        gem.nextPosition.y = FlxRandom.floatRanged(0, FlxG.height, [player.y]);
 
-      gem.x = FlxRandom.floatRanged(0, FlxG.width, [player.x]);
-      gem.y = FlxRandom.floatRanged(0, FlxG.height, [player.y]);
+        if(level.checkTile(gem.nextPosition.x, gem.nextPosition.y, gem.width, gem.height)){
 
-      if(level.checkTile(gem.x, gem.y, gem.width, gem.height)){
+          gem.nextPosition.x = FlxRandom.floatRanged(0, FlxG.width, [player.x]);
+          gem.nextPosition.y = FlxRandom.floatRanged(0, FlxG.height, [player.y]);
 
-        gem.x = FlxRandom.floatRanged(0, FlxG.width, [player.x]);
-        gem.y = FlxRandom.floatRanged(0, FlxG.height, [player.y]);
+          searchingPlaceForGem = true;
 
-      };
+        };
+
+        if(!searchingPlaceForGem){
+
+          gem.colected = false;
+
+          gem.x = gem.nextPosition.x;
+          gem.y = gem.nextPosition.y;
+
+          gem.revive();
+
+        }
+
+      }
 
     }
 
-  }
 }
