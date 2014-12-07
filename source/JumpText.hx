@@ -41,7 +41,7 @@ class JumpText extends FlxText{
     //FlxTween.tween(this, { alpha:0, y: y + 16 }, 0.1, { ease:FlxEase.sineOut } );
     alpha = 1;
 
-    setPosition(newX, newY);
+    setPosition(newX - 16, newY);
 
     FlxTween.tween(this, { alpha:0, y: y - 16 }, 2, {ease:FlxEase.sineOut, complete:finishKill } );
     text = newText +' Jumps';

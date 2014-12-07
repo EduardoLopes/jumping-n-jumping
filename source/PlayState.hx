@@ -19,10 +19,12 @@ class PlayState extends FlxState
   public var player:Player;
   public var gem:Gem;
   public var jumpText:FlxTypedGroup<JumpText>;
+  public var cannons:FlxTypedGroup<Cannon>;
   public var gemCount:Int = 0;
   public var gemCountText:FlxText;
   public var timeToReapear:Float = 0;
   public var searchingPlaceForGem = true;
+  public var bullets:FlxTypedGroup<Bullet>;
 
   /**
    * Function that is called up when to state is created to set it up.
@@ -40,6 +42,17 @@ class PlayState extends FlxState
     jumpText = new FlxTypedGroup<JumpText>();
     jumpText.maxSize = 20;
     add(jumpText);
+
+    cannons = new FlxTypedGroup<Cannon>();
+    cannons.maxSize = 4;
+    add(cannons);
+
+    bullets = new FlxTypedGroup<Bullet>();
+    bullets.maxSize = 10;
+    add(bullets);
+
+    cannons.recycle(Cannon, [bullets]).spawnRight();
+    cannons.recycle(Cannon, [bullets]).spawnLeft();
 
     gemCountText = new FlxText(0, 16, FlxG.width, Std.string(gemCount), 20);
     gemCountText.setFormat(null, 20, 0xFFFFFF, "center", FlxText.BORDER_OUTLINE_FAST, 0x131c1b);
@@ -75,6 +88,12 @@ class PlayState extends FlxState
     level.collideWithLevel(player, function(obj1, obj2){
 
       //trace('a');
+
+    });
+
+    FlxG.overlap(player, bullets, function(player, bullet){
+
+      bullet.kill();
 
     });
 
