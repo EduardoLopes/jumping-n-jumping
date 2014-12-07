@@ -11,11 +11,20 @@
    <property name="tileset" value="tileset"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJxjZGBgYKQyphYYNQ8hToxeYs0jFwxV80bDb2DNoyYGAKlMAEc=
+   eJxjY2BgYIRiViDmg2JGAhimjgVJjB2IeRmoB3ih5lILwNw5mM1jIiBPjBgMMBMwj1QwVM0jJo6wqWEmUi+xAGQWtfPHYM9vQgyo5QY/FAsw4C5bBJHUIYsLAzEAsEIBXg==
   </data>
  </layer>
  <objectgroup name="Object Layer 1" width="20" height="15">
   <object name="Player" type="player" gid="145" x="144" y="128"/>
-  <object name="gem" type="gem" x="192" y="80" width="16" height="16"/>
+  <object name="gem" type="gem" x="160" y="48" width="16" height="16"/>
  </objectgroup>
+ <layer name="Tile Layer 2" width="20" height="15">
+  <properties>
+   <property name="nocollide" value="true"/>
+   <property name="tileset" value="tileset"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJxjYKA+MIJiezL02iLpRzaPHLPQzYQBSsxCNhMfUAVidRLEKbGPGv4ZrkCVBLXExAsoHogJb3zqyIl/dIDsLyMKzVRlwMxv5JoJM8uIkEIyAQA0jwcJ
+  </data>
+ </layer>
 </map>

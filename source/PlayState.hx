@@ -9,6 +9,8 @@ import flixel.util.FlxMath;
 import flixel.util.FlxRandom;
 import flixel.group.FlxTypedGroup;
 import flixel.util.FlxPoint;
+import flixel.system.FlxSound;
+import flixel.addons.display.FlxBackdrop;
 
 /**
  * A FlxState which can be used for the actual gameplay.
@@ -29,6 +31,13 @@ class PlayState extends FlxState
   public var bullets:FlxTypedGroup<Bullet>;
   public var spawnSpikes:SpawnSpike;
   public var levelManager:LevelManager;
+  public var looseSound:FlxSound;
+  public var powerUpSound:FlxSound;
+  public var background:FlxBackdropExt;
+  public var background2:FlxBackdropExt;
+  public var background3:FlxBackdropExt; //fog
+  public var background4:FlxBackdropExt; //fog 2
+
 
   /**
    * Function that is called up when to state is created to set it up.
@@ -37,6 +46,21 @@ class PlayState extends FlxState
   {
 
     FlxG.mouse.visible = false;
+
+    background2 = new FlxBackdropExt('assets/images/background2.png', 0.05, 0.05);
+    add(background2);
+
+    background3 = new FlxBackdropExt('assets/images/fog.png', 0.03, 0.03);
+    add(background3);
+
+    background = new FlxBackdropExt('assets/images/background.png', 0.1, 0.1);
+    add(background);
+
+    background4 = new FlxBackdropExt('assets/images/fog2.png', 0.08, 0.08);
+    add(background4);
+
+    looseSound = FlxG.sound.load(AssetPaths.loose__wav, .4);
+    powerUpSound = FlxG.sound.load(AssetPaths.powerup__wav, .4);
 
     level = new TiledLevel("assets/maps/map-1.tmx");
 
@@ -174,6 +198,7 @@ class PlayState extends FlxState
   }
 
   public function resetLevel(){
+    looseSound.play();
     levelManager.currentIndex = 0;
     gemCount = 0;
     timeToReapear = 0;
@@ -205,6 +230,12 @@ class PlayState extends FlxState
     });
 
     super.update();
+
+    background.updatePlayerPosition(player.x, player.y);
+    background2.updatePlayerPosition(player.x, player.y);
+    background3.updatePlayerPosition(player.x, player.y);
+    background4.updatePlayerPosition(player.x, player.y);
+
 
     switch (gemCount)
     {
@@ -244,7 +275,7 @@ class PlayState extends FlxState
     FlxG.overlap(player, bullets, function(player, bullet){
 
       bullet.kill();
-      SpawnExplosions.spawn(bullet.x,bullet.y, true);
+      SpawnExplosions.spawn(bullet.x,bullet.y, true, 'explosion');
 
       resetLevel();
 
@@ -254,6 +285,8 @@ class PlayState extends FlxState
 
       gem.colected = true;
       gem.kill();
+
+      powerUpSound.play();
 
       timeToReapear = 0;
 

@@ -9,6 +9,7 @@ import flixel.util.FlxSpriteUtil;
 import flixel.group.FlxTypedGroup;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
+import flixel.system.FlxSound;
 
 class Player extends FlxSprite {
 
@@ -20,6 +21,7 @@ class Player extends FlxSprite {
   public var jumpsCount:Int = 3;
   public var jumpText:FlxTypedGroup<JumpText>;
   public var textColor = 0xffffff;
+  public var jumpSound:FlxSound;
 
   public function new (x:Float = 0, y:Float = 0, JumpText){
     super(x, y);
@@ -32,6 +34,8 @@ class Player extends FlxSprite {
 
     setFacingFlip(FlxObject.LEFT, true, false);
     setFacingFlip(FlxObject.RIGHT, false, false);
+
+    jumpSound = FlxG.sound.load(AssetPaths.jump__wav, .4);
 
     jumpText = JumpText;
 
@@ -118,6 +122,8 @@ class Player extends FlxSprite {
   }
 
   public function jump():Void{
+
+    jumpSound.play();
 
     velocity.y = -350;
 

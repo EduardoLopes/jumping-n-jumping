@@ -11,10 +11,10 @@ class SpawnExplosions extends FlxObject {
 
   public static var explosions:FlxTypedGroup<Explosion>;
 
-  public static function spawn(x,y, scaleVariation)
+  public static function spawn(x,y, scaleVariation, sound)
   {
 
-    explosions.recycle(Explosion).spawn(x,y, scaleVariation);
+    explosions.recycle(Explosion).spawn(x,y, scaleVariation, sound);
 
   };
 

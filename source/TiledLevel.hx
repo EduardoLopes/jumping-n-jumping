@@ -12,6 +12,7 @@ import flixel.addons.editors.tiled.TiledMap;
 import flixel.addons.editors.tiled.TiledObject;
 import flixel.addons.editors.tiled.TiledObjectGroup;
 import flixel.addons.editors.tiled.TiledTileSet;
+import flixel.FlxCamera;
 
 /**
  * ...
@@ -105,6 +106,8 @@ class TiledLevel extends TiledMap
     {
       case "player":
         var player = new Player(x, y, state.jumpText);
+        FlxG.camera.follow(player, FlxCamera.STYLE_LOCKON, 10);
+
         state.player = player;
         state.add(player);
 

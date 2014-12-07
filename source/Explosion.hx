@@ -10,10 +10,13 @@ import flixel.util.FlxPoint;
 import flixel.util.FlxRandom;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
+import flixel.system.FlxSound;
 
 class Explosion extends FlxSprite {
 
   public var tween:FlxTween;
+  public var explosion:FlxSound;
+  public var appear:FlxSound;
 
   public function new (x:Float = 0, y:Float = 0){
     super(x, y);
@@ -23,9 +26,18 @@ class Explosion extends FlxSprite {
 
     animation.play('explosion');
 
+    explosion = FlxG.sound.load(AssetPaths.explosion__wav, .4);
+    appear = FlxG.sound.load(AssetPaths.appear__wav, .4);
+
   }
 
-  public function spawn(x,y, scaleVariation){
+  public function spawn(x,y, scaleVariation, sound){
+
+    if(sound == 'appear'){
+      appear.play(true);
+    } else {
+      explosion.play(true);
+    }
 
     var variation = FlxRandom.floatRanged(0.5, 1);
     if(scaleVariation){

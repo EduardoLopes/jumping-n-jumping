@@ -43,7 +43,7 @@ class Cannon extends FlxSprite {
     setPosition(16, FlxRandom.floatRanged(16, FlxG.height - 16));
 
 
-    SpawnExplosions.spawn(x,y, false);
+    SpawnExplosions.spawn(x,y, false, 'appear');
 
     facing = FlxObject.LEFT;
 
@@ -66,7 +66,7 @@ class Cannon extends FlxSprite {
 
     facing = FlxObject.RIGHT;
 
-    SpawnExplosions.spawn(x,y, false);
+    SpawnExplosions.spawn(x,y, false, 'appear');
 
     if(FlxRandom.chanceRoll()){
 

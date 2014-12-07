@@ -10,6 +10,8 @@ import flixel.util.FlxPoint;
 import flixel.util.FlxRandom;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
+import flixel.system.FlxSound;
+import flixel.util.FlxDestroyUtil;
 
 class Spike extends FlxSprite {
 
@@ -17,6 +19,7 @@ class Spike extends FlxSprite {
   public var initialPosition:FlxPoint;
   public var delay = 1;
   public var tween:FlxTween;
+  public var spikeSound:FlxSound;
 
   public function new (x:Float = 0, y:Float = 0){
     super(x, y);
@@ -25,6 +28,8 @@ class Spike extends FlxSprite {
     height = 7;
     offset.set(0, 9);
 
+    //spikeSound = FlxG.sound.load(AssetPaths.spike__wav, .4);
+    //spikeSound.proximity(x,y,FlxG.camera.target, 1);
 
     setFacingFlip(FlxObject.LEFT, true, false);
     setFacingFlip(FlxObject.DOWN, false, true);
@@ -35,18 +40,26 @@ class Spike extends FlxSprite {
 
   public function spawn(x,y, direction){
 
-    SpawnExplosions.spawn(x,y, true);
+    SpawnExplosions.spawn(x,y, true, 'appear');
 
     if(direction == 'up'){
        y = y + 11;
        initialPosition = FlxPoint.weak(x,y);
        facing = FlxObject.UP;
-       tween = FlxTween.tween(this, {y: initialPosition.y + 7}, 0.2, { type:FlxTween.PINGPONG, ease:FlxEase.elasticInOut, loopDelay: 1, startDelay: delay} );
+       tween = FlxTween.tween(this, {y: initialPosition.y + 7}, 0.2, { type:FlxTween.PINGPONG, ease:FlxEase.elasticInOut, loopDelay: 1, startDelay: delay, complete:finishSpike} );
     }
 
     setPosition(x,y);
 
   }
+
+  private function finishSpike(T:FlxTween):Void
+  {
+
+    //spikeSound.play(true);
+
+  }
+
 
   override public function kill():Void{
 
@@ -62,6 +75,8 @@ class Spike extends FlxSprite {
   {
 
     super.destroy();
+
+    spikeSound = FlxDestroyUtil.destroy(spikeSound);
 
   }
 
