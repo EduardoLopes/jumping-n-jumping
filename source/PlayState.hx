@@ -22,9 +22,12 @@ class PlayState extends FlxState
   public var cannons:FlxTypedGroup<Cannon>;
   public var gemCount:Int = 0;
   public var gemCountText:FlxText;
+  public var spikes:FlxTypedGroup<Spike>;
   public var timeToReapear:Float = 0;
   public var searchingPlaceForGem = true;
   public var bullets:FlxTypedGroup<Bullet>;
+  public var spawnSpikes:SpawnSpike;
+  public var levelManager:LevelManager;
 
   /**
    * Function that is called up when to state is created to set it up.
@@ -35,6 +38,10 @@ class PlayState extends FlxState
     FlxG.mouse.visible = false;
 
     level = new TiledLevel("assets/maps/map-1.tmx");
+
+    spikes = new FlxTypedGroup<Spike>();
+    spikes.maxSize = 20;
+    add(spikes);
 
     add(level.foregroundTiles);
     add(level.backgroundTiles);
@@ -51,8 +58,90 @@ class PlayState extends FlxState
     bullets.maxSize = 10;
     add(bullets);
 
-    cannons.recycle(Cannon, [bullets]).spawnRight();
-    cannons.recycle(Cannon, [bullets]).spawnLeft();
+    spawnSpikes = new SpawnSpike(spikes);
+    add(spawnSpikes);
+
+    levelManager = new LevelManager();
+    add(levelManager);
+
+    //0
+    levelManager.registerLevel(function(){
+
+      spawnSpikes.setLayout(0);
+
+      spawnSpikes.remove();
+      killCannons();
+
+    });
+
+    //1
+    levelManager.registerLevel(function(){
+
+      killCannons();
+
+      if(FlxRandom.chanceRoll()){
+        cannons.recycle(Cannon, [bullets]).spawnRight();
+      } else {
+        cannons.recycle(Cannon, [bullets]).spawnLeft();
+      }
+
+
+    });
+
+    //2
+    levelManager.registerLevel(function(){
+
+      spawnSpikes.setLayout(1);
+
+      killCannons();
+
+      if(FlxRandom.chanceRoll()){
+        cannons.recycle(Cannon, [bullets]).spawnRight();
+      } else {
+        cannons.recycle(Cannon, [bullets]).spawnLeft();
+      }
+
+
+    });
+
+    //3
+    levelManager.registerLevel(function(){
+      spawnSpikes.setLayout(2);
+
+      killCannons();
+
+      if(FlxRandom.chanceRoll()){
+        cannons.recycle(Cannon, [bullets]).spawnRight();
+      } else {
+        cannons.recycle(Cannon, [bullets]).spawnLeft();
+      }
+
+
+    });
+
+    //4
+    levelManager.registerLevel(function(){
+
+      spawnSpikes.setLayout(3);
+
+      killCannons();
+
+      cannons.recycle(Cannon, [bullets]).spawnRight();
+      cannons.recycle(Cannon, [bullets]).spawnLeft();
+
+    });
+
+    //5
+    levelManager.registerLevel(function(){
+
+      spawnSpikes.setLayout(4);
+
+      killCannons();
+
+      cannons.recycle(Cannon, [bullets]).spawnRight();
+      cannons.recycle(Cannon, [bullets]).spawnLeft();
+
+    });
 
     gemCountText = new FlxText(0, 16, FlxG.width, Std.string(gemCount), 20);
     gemCountText.setFormat(null, 20, 0xFFFFFF, "center", FlxText.BORDER_OUTLINE_FAST, 0x131c1b);
@@ -64,6 +153,24 @@ class PlayState extends FlxState
 
     super.create();
 
+  }
+
+  public function killCannons()
+  {
+    cannons.forEach(function(T){
+
+      T.kill();
+
+    });
+  }
+
+  public function resetLevel(){
+    levelManager.currentIndex = 0;
+    gemCount = 0;
+    timeToReapear = 0;
+    gem.nextPosition.x = FlxRandom.floatRanged(0, FlxG.width, [player.x]);
+    gem.nextPosition.y = FlxRandom.floatRanged(0, FlxG.height, [player.y]);
+    gemCountText.text = Std.string(gemCount);
   }
 
   /**
@@ -81,7 +188,38 @@ class PlayState extends FlxState
   override public function update():Void
   {
 
+    FlxG.overlap(player, spikes, function(player, spike){
+
+      resetLevel();
+
+    });
+
     super.update();
+
+    switch (gemCount)
+    {
+      case 2:
+        levelManager.currentIndex = 1;
+
+      case 6:
+        levelManager.currentIndex = 2;
+
+      case 8:
+        levelManager.currentIndex = 3;
+
+      case 10:
+        levelManager.currentIndex = 4;
+
+      case 12:
+        levelManager.currentIndex = 5;
+
+    }
+
+    if(gemCount > 2){
+
+
+
+    }
 
     timeToReapear += FlxG.elapsed;
 
@@ -91,9 +229,13 @@ class PlayState extends FlxState
 
     });
 
+
+
     FlxG.overlap(player, bullets, function(player, bullet){
 
       bullet.kill();
+
+      resetLevel();
 
     });
 
