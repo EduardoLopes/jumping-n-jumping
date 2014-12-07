@@ -65,8 +65,6 @@ class Spike extends FlxSprite {
   override public function update():Void
   {
 
-//    angle += 4;
-
     super.update();
 
 

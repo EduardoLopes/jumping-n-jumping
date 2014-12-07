@@ -64,6 +64,8 @@ class PlayState extends FlxState
     levelManager = new LevelManager();
     add(levelManager);
 
+    //add(new Explosion(150,150));
+
     //0
     levelManager.registerLevel(function(){
 
