@@ -5,6 +5,7 @@ import flixel.FlxG;
 import flixel.util.FlxPoint;
 import flixel.group.FlxTypedGroup;
 import flixel.FlxSprite;
+import flixel.FlxCamera;
 
 class LevelManager extends FlxObject {
 
@@ -31,6 +32,9 @@ class LevelManager extends FlxObject {
   }
 
   public function callLevel(index){
+
+    FlxG.camera.flash(0xFFFFFF, 0.2);
+    FlxG.camera.shake(0.01, 0.02);
 
     lastCalled = index;
     callbacks[index]();

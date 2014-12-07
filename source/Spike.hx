@@ -35,11 +35,13 @@ class Spike extends FlxSprite {
 
   public function spawn(x,y, direction){
 
+    SpawnExplosions.spawn(x,y, true);
+
     if(direction == 'up'){
-       y = y + 16;
+       y = y + 11;
        initialPosition = FlxPoint.weak(x,y);
        facing = FlxObject.UP;
-       tween = FlxTween.tween(this, {y: initialPosition.y - 7}, 0.2, { type:FlxTween.PINGPONG, ease:FlxEase.elasticInOut, loopDelay: 1, startDelay: delay} );
+       tween = FlxTween.tween(this, {y: initialPosition.y + 7}, 0.2, { type:FlxTween.PINGPONG, ease:FlxEase.elasticInOut, loopDelay: 1, startDelay: delay} );
     }
 
     setPosition(x,y);
@@ -47,6 +49,8 @@ class Spike extends FlxSprite {
   }
 
   override public function kill():Void{
+
+    //SpawnExplosions.spawn(x,y, true);
 
     super.kill();
 

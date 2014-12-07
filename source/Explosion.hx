@@ -25,21 +25,30 @@ class Explosion extends FlxSprite {
 
   }
 
-  public function spawn(x,y){
+  public function spawn(x,y, scaleVariation){
+
+    var variation = FlxRandom.floatRanged(0.5, 1);
+    if(scaleVariation){
+      scale.set(variation, variation);
+    } else {
+      scale.set(1,1);
+    }
 
     setPosition(x,y);
 
     animation.play('explosion');
 
-  }
-
-  override public function kill():Void{
-
-    super.kill();
-
-    tween.cancel();
+    angle = FlxRandom.floatRanged(0,360);
 
   }
+
+//  override public function kill():Void{
+//
+//    super.kill();
+//
+//    tween.cancel();
+//
+//  }
 
   override public function destroy():Void
   {
@@ -51,6 +60,10 @@ class Explosion extends FlxSprite {
 
   override public function update():Void
   {
+
+    if(animation.finished){
+      kill();
+    }
 
     super.update();
 

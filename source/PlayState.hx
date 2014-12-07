@@ -20,6 +20,7 @@ class PlayState extends FlxState
   public var gem:Gem;
   public var jumpText:FlxTypedGroup<JumpText>;
   public var cannons:FlxTypedGroup<Cannon>;
+  public var explosions:FlxTypedGroup<Explosion>;
   public var gemCount:Int = 0;
   public var gemCountText:FlxText;
   public var spikes:FlxTypedGroup<Spike>;
@@ -47,7 +48,7 @@ class PlayState extends FlxState
     add(level.backgroundTiles);
 
     jumpText = new FlxTypedGroup<JumpText>();
-    jumpText.maxSize = 20;
+    jumpText.maxSize = 8;
     add(jumpText);
 
     cannons = new FlxTypedGroup<Cannon>();
@@ -55,16 +56,20 @@ class PlayState extends FlxState
     add(cannons);
 
     bullets = new FlxTypedGroup<Bullet>();
-    bullets.maxSize = 10;
+    bullets.maxSize = 5;
     add(bullets);
+
+    explosions = new FlxTypedGroup<Explosion>();
+    explosions.maxSize = 20;
+    add(explosions);
+
+    SpawnExplosions.explosions = explosions;
 
     spawnSpikes = new SpawnSpike(spikes);
     add(spawnSpikes);
 
     levelManager = new LevelManager();
     add(levelManager);
-
-    //add(new Explosion(150,150));
 
     //0
     levelManager.registerLevel(function(){
@@ -161,6 +166,8 @@ class PlayState extends FlxState
   {
     cannons.forEach(function(T){
 
+      //SpawnExplosions.spawn(T.x,T.y, true);
+
       T.kill();
 
     });
@@ -170,6 +177,7 @@ class PlayState extends FlxState
     levelManager.currentIndex = 0;
     gemCount = 0;
     timeToReapear = 0;
+    player.jumpsCount = 3;
     gem.nextPosition.x = FlxRandom.floatRanged(0, FlxG.width, [player.x]);
     gem.nextPosition.y = FlxRandom.floatRanged(0, FlxG.height, [player.y]);
     gemCountText.text = Std.string(gemCount);
@@ -236,6 +244,7 @@ class PlayState extends FlxState
     FlxG.overlap(player, bullets, function(player, bullet){
 
       bullet.kill();
+      SpawnExplosions.spawn(bullet.x,bullet.y, true);
 
       resetLevel();
 
