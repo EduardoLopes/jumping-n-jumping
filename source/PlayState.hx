@@ -47,16 +47,16 @@ class PlayState extends FlxState
 
     FlxG.mouse.visible = false;
 
-    background2 = new FlxBackdropExt('assets/images/background2.png', 0.05, 0.05);
+    background2 = new FlxBackdropExt('assets/images/background2.png', 0.05, 0.05, false, false);
     add(background2);
 
-    background3 = new FlxBackdropExt('assets/images/fog.png', 0.03, 0.03);
+    background3 = new FlxBackdropExt('assets/images/fog.png', 0.03, 0.03, true, false);
     add(background3);
 
-    background = new FlxBackdropExt('assets/images/background.png', 0.1, 0.1);
+    background = new FlxBackdropExt('assets/images/background.png', 0.1, 0.1, false, false);
     add(background);
 
-    background4 = new FlxBackdropExt('assets/images/fog2.png', 0.08, 0.08);
+    background4 = new FlxBackdropExt('assets/images/fog2.png', 0.08, 0.08, true, true);
     add(background4);
 
     looseSound = FlxG.sound.load(AssetPaths.loose__wav, .4);
@@ -64,12 +64,12 @@ class PlayState extends FlxState
 
     level = new TiledLevel("assets/maps/map-1.tmx");
 
+    add(level.foregroundTiles);
+    add(level.backgroundTiles);
+
     spikes = new FlxTypedGroup<Spike>();
     spikes.maxSize = 20;
     add(spikes);
-
-    add(level.foregroundTiles);
-    add(level.backgroundTiles);
 
     jumpText = new FlxTypedGroup<JumpText>();
     jumpText.maxSize = 8;

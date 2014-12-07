@@ -16,6 +16,7 @@ class FlxBackdropExt extends FlxBackdrop
 
     var playerPositionX:Float;
     var playerPositionY:Float;
+    var scrollX:Float = 0;
 
     public function updatePlayerPosition(x,y){
 
@@ -27,8 +28,30 @@ class FlxBackdropExt extends FlxBackdrop
     override public function draw():Void
     {
 
-        _ppoint.x = (x - playerPositionX * scrollFactor.x) % _scrollW;
+        _ppoint.x = scrollX + (x - playerPositionX * scrollFactor.x) % _scrollW;
         _ppoint.y = (y - playerPositionY * scrollFactor.y) % _scrollH;
+
+        if (_repeatX){
+
+            if (_ppoint.x > 0) {
+                _ppoint.x -= _scrollW;
+                scrollX-= _scrollW;
+            }
+        }
+
+        if (_repeatY){
+            scrollX+=0.2;
+        }
+
+        if (_repeatX && !_repeatY){
+            scrollX+=0.1;
+        }
+
+
+
+
+
+
 
         super.draw();
 

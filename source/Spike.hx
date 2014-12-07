@@ -46,7 +46,7 @@ class Spike extends FlxSprite {
        y = y + 11;
        initialPosition = FlxPoint.weak(x,y);
        facing = FlxObject.UP;
-       tween = FlxTween.tween(this, {y: initialPosition.y + 7}, 0.2, { type:FlxTween.PINGPONG, ease:FlxEase.elasticInOut, loopDelay: 1, startDelay: delay, complete:finishSpike} );
+       tween = FlxTween.tween(this, {y: initialPosition.y + 16}, 0.2, { type:FlxTween.PINGPONG, ease:FlxEase.elasticInOut, loopDelay: 1, startDelay: delay, complete:finishSpike} );
     }
 
     setPosition(x,y);
