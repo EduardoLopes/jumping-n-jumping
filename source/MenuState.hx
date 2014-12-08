@@ -12,13 +12,14 @@ import flixel.util.FlxMath;
  */
 class MenuState extends FlxState
 {
+
   /**
    * Function that is called up when to state is created to set it up.
    */
   override public function create():Void
   {
     super.create();
-
+      FlxG.mouse.visible = false;
       FlxG.switchState(new PlayState());
 
   }

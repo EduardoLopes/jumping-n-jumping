@@ -23,7 +23,7 @@ class Spike extends FlxSprite {
 
   public function new (x:Float = 0, y:Float = 0){
     super(x, y);
-    loadGraphic(AssetPaths.spikes__png, true, 16, 16);
+    loadGraphic(AssetPaths.spikes__png, true, 16, 20);
 
     height = 7;
     offset.set(0, 9);

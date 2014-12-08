@@ -27,6 +27,10 @@ class Player extends FlxSprite {
     super(x, y);
     loadGraphic(AssetPaths.player__png, true, 16, 16);
 
+    width = 12;
+    height = 13;
+    offset.set(2, 3);
+
     collisonXDrag = true;
     drag.x = drag.y = 740;
     acceleration.y = 1600;
@@ -38,6 +42,10 @@ class Player extends FlxSprite {
     jumpSound = FlxG.sound.load(AssetPaths.jump__wav, .4);
 
     jumpText = JumpText;
+
+    animation.add('lr', [0, 1], 8, false);
+    animation.add('idle', [0,1], 4, true);
+    animation.add('jump', [2], 4, false);
 
   }
 
@@ -119,11 +127,22 @@ class Player extends FlxSprite {
 
     }
 
+                                                                                       switch(facing){
+    case FlxObject.LEFT, FlxObject.RIGHT:
+          animation.play("lr");
+    }
+
+    if(velocity.x == 0 && velocity.y == 0){
+      animation.play("idle");
+    }
+
+
   }
 
   public function jump():Void{
 
     jumpSound.play();
+    animation.play("jump");
 
     velocity.y = -350;
 

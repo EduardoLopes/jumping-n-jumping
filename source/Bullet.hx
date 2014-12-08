@@ -15,7 +15,7 @@ class Bullet extends FlxSprite {
 
   public var colected:Bool;
   public var nextPosition:FlxPoint;
-  public var speed:Int = 240;
+  public var speed:Int = 320;
   public var shootSound:FlxSound;
 
   public function new (x:Float = 0, y:Float = 0){
@@ -32,7 +32,7 @@ class Bullet extends FlxSprite {
 
   public function shootLeft(x, y){
 
-    setPosition(x, Std.int(y) - (height / 2));
+    setPosition(Std.int(x) + 16, Std.int(y) - (height / 2));
 
     velocity.x = speed;
     velocity.y = 0;
@@ -68,7 +68,7 @@ class Bullet extends FlxSprite {
       kill();
     }
 
-    angle += 6;
+    angle += 20;
     super.update();
 
   }

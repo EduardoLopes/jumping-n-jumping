@@ -37,6 +37,7 @@ class PlayState extends FlxState
   public var background2:FlxBackdropExt;
   public var background3:FlxBackdropExt; //fog
   public var background4:FlxBackdropExt; //fog 2
+  public var music:FlxSound;
 
 
   /**
@@ -45,32 +46,34 @@ class PlayState extends FlxState
   override public function create():Void
   {
 
-    FlxG.mouse.visible = false;
-
-    background2 = new FlxBackdropExt('assets/images/background2.png', 0.05, 0.05, false, false);
+    background2 = new FlxBackdropExt('assets/images/background2.png', 0.05, 0.01, false, false);
     add(background2);
 
-    background3 = new FlxBackdropExt('assets/images/fog.png', 0.03, 0.03, true, false);
+    background3 = new FlxBackdropExt('assets/images/fog.png', 0.03, 0.015, true, false);
     add(background3);
 
     background = new FlxBackdropExt('assets/images/background.png', 0.1, 0.1, false, false);
     add(background);
 
-    background4 = new FlxBackdropExt('assets/images/fog2.png', 0.08, 0.08, true, true);
+    background4 = new FlxBackdropExt('assets/images/fog2.png', 0.08, 0.02, true, true);
     add(background4);
 
     looseSound = FlxG.sound.load(AssetPaths.loose__wav, .4);
     powerUpSound = FlxG.sound.load(AssetPaths.powerup__wav, .4);
 
+    music = FlxG.sound.load(AssetPaths.music__wav, .4, true);
+
+    music.play();
+
     level = new TiledLevel("assets/maps/map-1.tmx");
 
-    add(level.foregroundTiles);
     add(level.backgroundTiles);
 
     spikes = new FlxTypedGroup<Spike>();
     spikes.maxSize = 20;
     add(spikes);
 
+    add(level.foregroundTiles);
     jumpText = new FlxTypedGroup<JumpText>();
     jumpText.maxSize = 8;
     add(jumpText);
@@ -206,6 +209,7 @@ class PlayState extends FlxState
     gem.nextPosition.x = FlxRandom.floatRanged(0, FlxG.width, [player.x]);
     gem.nextPosition.y = FlxRandom.floatRanged(0, FlxG.height, [player.y]);
     gemCountText.text = Std.string(gemCount);
+    player.setPosition(FlxG.width / 2, FlxG.height / 2);
   }
 
   /**
@@ -236,29 +240,22 @@ class PlayState extends FlxState
     background3.updatePlayerPosition(player.x, player.y);
     background4.updatePlayerPosition(player.x, player.y);
 
-
     switch (gemCount)
     {
-      case 2:
+      case 10:
         levelManager.currentIndex = 1;
 
-      case 6:
+      case 20:
         levelManager.currentIndex = 2;
 
-      case 8:
+      case 30:
         levelManager.currentIndex = 3;
 
-      case 10:
+      case 40:
         levelManager.currentIndex = 4;
 
-      case 12:
+      case 50:
         levelManager.currentIndex = 5;
-
-    }
-
-    if(gemCount > 2){
-
-
 
     }
 
@@ -266,7 +263,7 @@ class PlayState extends FlxState
 
     level.collideWithLevel(player, function(obj1, obj2){
 
-      //trace('a');
+
 
     });
 
